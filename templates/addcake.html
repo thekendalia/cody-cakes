@@ -70,8 +70,8 @@
     <div class="container-fluid position-relative nav-bar p-0">
         <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
             <nav class="navbar navbar-expand-lg bg-white navbar-light shadow p-lg-0">
-                <a href="index.html" class="navbar-brand d-block d-lg-none">
-                    <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Cody's </span>Cakes</h1>
+                <a href="/" class="navbar-brand d-block d-sm-none">
+                    <h1 class="m-0 display-4 text-primary"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
                 </a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -81,11 +81,11 @@
                         <a href="/" class="nav-item nav-link">Home</a>
                         <a href="/cakes" class="nav-item nav-link">Cakes</a>
                     </div>
-                    <a href="index.html" class="navbar-brand mx-5 d-none d-lg-block">
-                        <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Cody's </span>Cakes</h1>
+                    <a href="/" class="navbar-brand mx-5 d-none d-sm-block">
+                        <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
                     </a>
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="/contact" class="nav-item nav-link">Contact</a>
                         {% if not session['name'] %}
                         <a href="/login" class="nav-item nav-link">Log in</a>
                         {% endif %}
@@ -96,8 +96,7 @@
                                 Admin Portal
                             </a>
                             <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                                <a class="dropdown-item" href="/admin/dashboard">Dashboard</a>
-                                <a class="dropdown-item" href="/admin/users">Manage Users</a>
+                                <a class="dropdown-item" href="/dashboard">Dashboard</a>
                                 <a class="dropdown-item" href="/addcake">Add Cake</a>
                                 <form action="/logout" method="POST">
                                     <button type="submit" class="dropdown-item">
@@ -114,7 +113,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="profileDropdown">
                                 <a class="dropdown-item" href="/profile">View Profile</a>
-                                <a class="dropdown-item" href="/profile/view">Orders</a>
+                                <a class="dropdown-item" href="/orders">Orders</a>
                                 <form action="/logout" method="POST">
                                     <button type="submit" class="dropdown-item">
                                         Logout
@@ -122,6 +121,10 @@
                                 </form>
                             </div>
                         </div>
+                        <a href="/cart" class="nav-item nav-link">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>{{ cart_item_count }}</span>
+                        </a>
                         {% endif %}
                     </div>
                 </div>
@@ -161,12 +164,12 @@
                                             placeholder="Cake Description" required></textarea>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <!--<div class="row">
                                     <div class="col-md-12 form-group">
-                                        <input type="text" class="form-control" name="price" id="price"
-                                            placeholder="Price" required>
+                                        <input type="text" class="form-control" name="price" id="price" value="15"
+                                            placeholder="Price" disabled>
                                     </div>
-                                </div>
+                                </div>-->
                                 <!--<div class="row">
                                     <div class="col-md-12 form-group">
                                         <input type="text" class="form-control" name="quantity" id="quantity"
@@ -176,7 +179,7 @@
                                 <div class="row">
                                     <div class="col-md-12 form-group">
                                         <input type="file" class="form-control" name="images" id="images" multiple required>
-                                        <h6>Image(s) look best if it's a square resolution ex.(150x150) or (350x350)..etc</h6>
+                                        <h6>Image(s) look best if it's a square resolution ex.(3000x3000) or (1000x1000)..etc</h6>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -210,9 +213,8 @@
         <div class="container text-center py-5">
             <div class="row">
                 <div class="col-12 mb-4">
-                    <a href="index.html" class="navbar-brand m-0">
-                        <h1 class="m-0 mt-n2 display-4 text-primary"><span class="text-secondary">Cody's </span>Cakes
-                        </h1>
+                    <a href="/" class="navbar-brand m-0">
+                        <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
                     </a>
                 </div>
                 <div class="col-12 mb-4">
@@ -236,8 +238,8 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <p class="m-0">&copy; <a href="#">Domain</a>. All Rights Reserved. Designed by <a
-                            href="https://htmlcodex.com">HTML Codex</a>
+                    <p class="m-0">&copy; <a href="#"></a>All Rights Reserved. Built by <a
+                            href="https://kendalltart.com">Kendall Tart</a>
                     </p>
                 </div>
             </div>

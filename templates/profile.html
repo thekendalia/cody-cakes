@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+
 <head>
     <meta charset="utf-8">
     <title>Cody's Cakes</title>
@@ -25,19 +26,21 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="static/css/style.css" rel="stylesheet">
     <style>
-        body{
-            margin-top:20px;
+        body {
+            margin-top: 20px;
             color: #1a202c;
             text-align: left;
-            background-color: #e2e8f0;    
+            background-color: #e2e8f0;
         }
+
         .main-body {
             padding: 15px;
         }
+
         .card {
-            box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
         }
-        
+
         .card {
             position: relative;
             display: flex;
@@ -46,37 +49,42 @@
             word-wrap: break-word;
             background-color: #fff;
             background-clip: border-box;
-            border: 0 solid rgba(0,0,0,.125);
+            border: 0 solid rgba(0, 0, 0, .125);
             border-radius: .25rem;
         }
-        
+
         .card-body {
             flex: 1 1 auto;
             min-height: 1px;
             padding: 1rem;
         }
-        
+
         .gutters-sm {
             margin-right: -8px;
             margin-left: -8px;
         }
-        
-        .gutters-sm>.col, .gutters-sm>[class*=col-] {
+
+        .gutters-sm>.col,
+        .gutters-sm>[class*=col-] {
             padding-right: 8px;
             padding-left: 8px;
         }
-        .mb-3, .my-3 {
-            margin-bottom: 1rem!important;
+
+        .mb-3,
+        .my-3 {
+            margin-bottom: 1rem !important;
         }
-        
+
         .bg-gray-300 {
             background-color: #e2e8f0;
         }
+
         .h-100 {
-            height: 100%!important;
+            height: 100% !important;
         }
+
         .shadow-none {
-            box-shadow: none!important;
+            box-shadow: none !important;
         }
     </style>
 </head>
@@ -124,8 +132,8 @@
     <div class="container-fluid position-relative nav-bar p-0">
         <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
             <nav class="navbar navbar-expand-lg bg-white navbar-light shadow p-lg-0">
-                <a href="index.html" class="navbar-brand d-block d-lg-none">
-                    <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Cody's </span>Cakes</h1>
+                <a href="/" class="navbar-brand d-block d-sm-none">
+                    <h1 class="m-0 display-4 text-primary"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
                 </a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -135,11 +143,11 @@
                         <a href="/" class="nav-item nav-link">Home</a>
                         <a href="/cakes" class="nav-item nav-link">Cakes</a>
                     </div>
-                    <a href="index.html" class="navbar-brand mx-5 d-none d-lg-block">
-                        <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Cody's </span>Cakes</h1>
+                    <a href="/" class="navbar-brand mx-5 d-none d-sm-block">
+                        <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
                     </a>
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="/contact" class="nav-item nav-link">Contact</a>
                         {% if not session['name'] %}
                         <a href="/login" class="nav-item nav-link">Log in</a>
                         {% endif %}
@@ -150,8 +158,7 @@
                                 Admin Portal
                             </a>
                             <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                                <a class="dropdown-item" href="/admin/dashboard">Dashboard</a>
-                                <a class="dropdown-item" href="/admin/users">Manage Users</a>
+                                <a class="dropdown-item" href="/dashboard">Dashboard</a>
                                 <a class="dropdown-item" href="/addcake">Add Cake</a>
                                 <form action="/logout" method="POST">
                                     <button type="submit" class="dropdown-item">
@@ -168,7 +175,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="profileDropdown">
                                 <a class="dropdown-item" href="/profile">View Profile</a>
-                                <a class="dropdown-item" href="/profile/view">Orders</a>
+                                <a class="dropdown-item" href="/orders">Orders</a>
                                 <form action="/logout" method="POST">
                                     <button type="submit" class="dropdown-item">
                                         Logout
@@ -176,6 +183,10 @@
                                 </form>
                             </div>
                         </div>
+                        <a href="/cart" class="nav-item nav-link">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>{{ cart_item_count }}</span>
+                        </a>
                         {% endif %}
                     </div>
                 </div>
@@ -196,76 +207,74 @@
 
     <div class="container">
         <div class="main-body">
-        
-              <div class="row gutters-sm">
+
+            <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="d-flex flex-column align-items-center text-center">
-                        <img src="/static/img/profile.png" alt="Admin" class="rounded-circle" width="150">
-                        <div class="mt-3">
-                          <h4>{{ session['name'] }}</h4>
-                          <h5>Past Orders: {{ session['orders'] }}</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="/static/img/profile.png" alt="Admin" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4>{{ session['name'] }}</h4>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
                 <div class="col-md-8">
-                  <div class="card mb-3">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Name</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                          {{ name }}
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Email</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                          {{ user_email }}
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Address</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                          {{ status }}
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <a class="btn btn-info " href="/edit_profile">Edit</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="row gutters-sm">
-                    <div class="col-sm-6 mb-3">
-                      <div class="card h-100">
+                    <div class="card mb-3">
                         <div class="card-body">
-                          <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Past Orders</h6>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ name }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ user_email }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Address</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ status }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Phone #</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ phonenum }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-info " href="/edit_profile">Edit</a>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
-    
-    
-    
+
+
+
                 </div>
-              </div>
-    
             </div>
+
         </div>
+    </div>
     <!-- Products End -->
 
 
@@ -274,8 +283,8 @@
         <div class="container text-center py-5">
             <div class="row">
                 <div class="col-12 mb-4">
-                    <a href="index.html" class="navbar-brand m-0">
-                        <h1 class="m-0 mt-n2 display-4 text-primary"><span class="text-secondary">Cody's </span>Cakes</h1>
+                    <a href="/" class="navbar-brand m-0">
+                        <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
                     </a>
                 </div>
                 <div class="col-12 mb-4">
@@ -299,7 +308,8 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <p class="m-0">&copy; <a href="#">Domain</a>. All Rights Reserved. Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+                    <p class="m-0">&copy; <a href="#"></a>All Rights Reserved. Built by <a
+                            href="https://kendalltart.com">Kendall Tart</a>
                     </p>
                 </div>
             </div>

@@ -1,0 +1,433 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <title>Cody's Cakes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Cody's Creations" name="keywords">
+    <meta content="Cody's Creations" name="description">
+
+    <!-- Favicon -->
+    <link href="static/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="static/css/style.css" rel="stylesheet">
+    <style>
+        .pickup-container {
+            margin-bottom: 20px;
+        }
+
+        .pickup-label {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .pickup-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+
+        .pickup-input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-primary py-3 d-none d-md-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-lg-left mb-2 mb-lg-0">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="text-white pr-3" href="">FAQs</a>
+                        <span class="text-white">|</span>
+                        <a class="text-white px-3" href="">Help</a>
+                        <span class="text-white">|</span>
+                        <a class="text-white pl-3" href="">Support</a>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center text-lg-right">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="text-white px-3" href="">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a class="text-white px-3" href="">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-white px-3" href="">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a class="text-white px-3" href="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a class="text-white pl-3" href="">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative nav-bar p-0">
+        <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light shadow p-lg-0">
+                <a href="/" class="navbar-brand d-block d-sm-none">
+                    <h1 class="m-0 display-4 text-primary"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto py-0">
+                        <a href="/" class="nav-item nav-link">Home</a>
+                        <a href="/cakes" class="nav-item nav-link">Cakes</a>
+                    </div>
+                    <a href="/" class="navbar-brand mx-5 d-none d-sm-block">
+                        <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span
+                                class="text-secondary">MAC's </span>Tipsey Creations</h1>
+                    </a>
+                    <div class="navbar-nav mr-auto py-0">
+                        <a href="/contact" class="nav-item nav-link">Contact</a>
+                        {% if not session['name'] %}
+                        <a href="/login" class="nav-item nav-link">Log in</a>
+                        {% endif %}
+                        {% if session['name'] and session['is_admin'] == true %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin Portal
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                                <a class="dropdown-item" href="/addcake">Add Cake</a>
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="dropdown-item">
+                                        Admin Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        {% elif session['name'] %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" href="/profile">View Profile</a>
+                                <a class="dropdown-item" href="/orders">Orders</a>
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="dropdown-item">
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <a href="/cart" class="nav-item nav-link">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>{{ cart_item_count }}</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h1 class="text-white display-3 mt-lg-5">Checkout</h1>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <div class="h-100 h-custom" style="background-color: #F3F6FF;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12">
+                    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-8">
+                                    <div class="p-5">
+                                        <form action="/checkout" method="POST">
+                                            <div class="d-flex justify-content-between align-items-center mb-5">
+                                                <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                                <h6 class="mb-0 text-muted">{{ cart_item_count }} items</h6>
+                                            </div>
+                                            <h6>SM = Small | MD = Medium | LG = Large</h6>
+                                            <hr class="my-4">
+                                            {% for item in details %}
+                                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                                    <img src="static/cake_images/{{ item['images'] }}"
+                                                        class="img-fluid rounded-3" alt="{{ item['name'] }}">
+                                                </div>
+                                                {% if item['size'] == "Small" %}
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <h6 class="text-black mb-0">SM {{ item['cake_name'] }}</h6>
+                                                </div>
+                                                {% elif item['size'] == "Medium" %}
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <h6 class="text-black mb-0">MD {{ item['cake_name'] }}</h6>
+                                                </div>
+                                                {% elif item['size'] == "Large" %}
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <h6 class="text-black mb-0">LG {{ item['cake_name'] }}</h6>
+                                                </div>
+                                                {% endif %}
+                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                    <h6 class="mb-0 text-muted">{{ item['quantity'] }}</h6>
+                                                </div>
+                                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                    <h6 class="mb-0">${{ item['price'] }}</h6>
+                                                </div>
+                                                <form action="/deletecake/{{ item.id_cake }}" method="POST"
+                                                    onsubmit="return confirm('Are you sure you want to delete this cake?');"
+                                                    class="mt-3">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                            <hr class="my-4">
+                                            {% endfor %}
+                                            <div class="pt-5">
+                                                <h6 class="mb-0"><a href="/cakes" class="text-body"><i
+                                                            class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a>
+                                                </h6>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 bg-grey">
+                                    <div class="p-5">
+                                        <h3 class="fw-bold">Summary</h3>
+                                        {% if message %}
+                                        <p id="fadeMessage" style="color:#751212; text-align:center;">{{ message }}</p>
+                                        <script>
+                                            setTimeout(function () { // this will make the message fade out after 5 seconds
+                                                var fadeTarget = document.getElementById("fadeMessage");
+                                                var fadeEffect = setInterval(function () {
+                                                    if (!fadeTarget.style.opacity) {
+                                                        fadeTarget.style.opacity = 1;
+                                                    }
+                                                    if (fadeTarget.style.opacity > 0) {
+                                                        fadeTarget.style.opacity -= 0.1;
+                                                    } else {
+                                                        clearInterval(fadeEffect);
+                                                        fadeTarget.style.display = 'none';
+                                                    }
+                                                }, 200);
+                                            }, 5000);
+                                        </script>
+                                        {% endif %}
+                                        {% for items in details[:1] %}
+                                        <div class="d-flex justify-content-between mb-4">
+                                            <h5 class="text-uppercase">items {{ cart_item_count }}</h5>
+                                            <h5>${{ grandtotal | round(2) }}</h5>
+                                        </div>
+                                        <h3 class="fw-bold">Contact</h3>
+                                        <form action="/checkout/{{ items.cart_id }}" method="POST">
+                                            <h5 class="text-uppercase mb-3">Phone Number: </h5>
+                                            <div class="mb-5">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <input type="text" name="phone" value="{{ items.phone }}"
+                                                        id="phoneInput" class="form-control form-control-lg" />
+                                                    <label class="form-label" for="phoneInput"></label>
+                                                </div>
+                                            </div>
+                                            <h3 class="fw-bold">Date for Order</h3>
+                                            <div class="pickup-container"> <label for="pickup"
+                                                    class="pickup-label"></label> <input type="date"
+                                                    id="pickup" name="pickup" class="pickup-input"> </div>
+                                            <div class="mb-5">
+                                                <h3 class="fw-bold">Where to Deliver</h3>
+                                                <hr>
+                                                <h6 class="fw-bold">Please note: We only deliver locally in the
+                                                    Wilmington area. FREE delivery within 5 miles of Laney. Delivery
+                                                    charge will depend on mileage $5-$10</h6>
+                                                <hr>
+                                                <h5>Street </h5>
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <input type="text" name="street" value="{{ items.address_street }}"
+                                                        id="streetInput" class="form-control form-control-lg" />
+                                                    <label class="form-label" for="streetInput"></label>
+                                                </div>
+                                                <h5>City & State </h5>
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <input type="text" name="country" value="{{ items.country }}"
+                                                        id="cityInput" class="form-control form-control-lg" />
+                                                    <label class="form-label" for="cityInput"></label>
+                                                </div>
+                                                <h5>Zip </h5>
+                                                {% if items.address_zip == 0 %}
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <input type="text" name="zip" value="" id="zipInput"
+                                                        class="form-control form-control-lg" />
+                                                    <label class="form-label" for="zipInput"></label>
+                                                </div>
+                                                {% elif items.address_zip != 0 %}
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <input type="text" name="zip" value="{{ items.address_zip }}"
+                                                        id="zipInput" class="form-control form-control-lg" />
+                                                    <label class="form-label" for="zipInput"></label>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="mb-5">
+                                                <h3 class="fw-bold">Comments</h3>
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <textarea class="form-control" name="comments"
+                                                        id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <script>
+                                                document.addEventListener("DOMContentLoaded", function () {
+                                                    var phoneInput = document.getElementById('phoneInput');
+                                                    var streetInput = document.getElementById('streetInput');
+                                                    var cityInput = document.getElementById('cityInput');
+                                                    var zipInput = document.getElementById('zipInput');
+
+                                                    if (!phoneInput.value) {
+                                                        phoneInput.setAttribute('required', 'required');
+                                                    }
+                                                    if (!streetInput.value) {
+                                                        streetInput.setAttribute('required', 'required');
+                                                    }
+                                                    if (!cityInput.value) {
+                                                        cityInput.setAttribute('required', 'required');
+                                                    }
+                                                    if (!zipInput.value) {
+                                                        zipInput.setAttribute('required', 'required');
+                                                    }
+                                                });
+                                            </script>
+
+                                            <hr class="my-4">
+                                            <div class="d-flex justify-content-between mb-5">
+                                                <h5 class="text-uppercase">Total price</h5>
+                                                <h5>${{ grandtotal | round(2) }}</h5>
+                                            </div>
+
+                                            <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                                                class="btn btn-dark btn-block btn-lg"
+                                                data-mdb-ripple-color="dark">Checkout</button>
+                                        </form>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/main.js"></script>
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid footer bg-light py-5" style="margin-top: 90px;">
+        <div class="container text-center py-5">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <a href="/" class="navbar-brand m-0">
+                        <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span
+                                class="text-secondary">MAC's </span>Tipsey Creations</h1>
+                    </a>
+                </div>
+                <div class="col-12 mb-4">
+                    <a class="btn btn-outline-secondary btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-secondary btn-social mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-secondary btn-social mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-outline-secondary btn-social" href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="col-12 mt-2 mb-4">
+                    <div class="row">
+                        <div class="col-sm-6 text-center text-sm-right border-right mb-3 mb-sm-0">
+                            <h5 class="font-weight-bold mb-2">Get In Touch</h5>
+                            <p class="mb-2">123 Street, New York, USA</p>
+                            <p class="mb-0">+012 345 67890</p>
+                        </div>
+                        <div class="col-sm-6 text-center text-sm-left">
+                            <h5 class="font-weight-bold mb-2">Opening Hours</h5>
+                            <p class="mb-2">Mon – Sat, 8AM – 5PM</p>
+                            <p class="mb-0">Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p class="m-0">&copy; <a href="#"></a>All Rights Reserved. Built by <a
+                            href="https://kendalltart.com">Kendall Tart</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-secondary px-2 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+{% endblock %}

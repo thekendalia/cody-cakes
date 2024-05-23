@@ -1,0 +1,487 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <title>Cody's Cakes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Cody's Creations" name="keywords">
+    <meta content="Cody's Creations" name="description">
+
+    <!-- Favicon -->
+    <link href="static/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="static/css/style.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            display: flex;
+        }
+
+        .left-column {
+            width: 58%;
+            position: relative;
+        }
+
+        .right-column {
+            width: 30%;
+            margin-top: 60px;
+        }
+
+        .left-column img {
+            width: 80%;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            object-fit: contain;
+            border-radius: 15px;
+            /* Adjust this value for more or less rounding */
+        }
+
+        .left-column img.active {
+            opacity: 1;
+        }
+
+        .product-description {
+            border-bottom: 1px solid #E1E8EE;
+            margin-bottom: 20px;
+        }
+
+        .product-description span {
+            font-size: 12px;
+            color: #358ED7;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .product-description h1 {
+            font-weight: 300;
+            font-size: 52px;
+            color: #43484D;
+            letter-spacing: -2px;
+        }
+
+        .product-description p {
+            font-size: 16px;
+            font-weight: 300;
+            color: #86939E;
+            line-height: 24px;
+        }
+
+        .product-color {
+            margin-bottom: 30px;
+        }
+
+        .color-choose div {
+            display: inline-block;
+        }
+
+        .color-choose input[type="radio"] {
+            display: none;
+        }
+
+        .color-choose input[type="radio"]+label span {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: -1px 4px 0 0;
+            vertical-align: middle;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+        }
+
+        .color-choose input[type="radio"]#red+label span {
+            background-color: #C91524;
+        }
+
+        .color-choose input[type="radio"]#blue+label span {
+            background-color: #314780;
+        }
+
+        .color-choose input[type="radio"]#black+label span {
+            background-color: #323232;
+        }
+
+        .color-choose input[type="radio"]:checked+label span {
+            background-image: url(images/check-icn.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .cable-choose,
+        .quantity-config {
+            margin-bottom: 20px;
+        }
+
+        .cable-choose button {
+            border: 2px solid #E1E8EE;
+            border-radius: 6px;
+            padding: 13px 20px;
+            font-size: 14px;
+            color: #5E6977;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all .5s;
+        }
+
+        .cable-choose button:hover,
+        .cable-choose button:active,
+        .cable-choose button:focus {
+            border: 2px solid #86939E;
+            outline: none;
+        }
+
+        .cable-config {
+            border-bottom: 1px solid #E1E8EE;
+            margin-bottom: 20px;
+        }
+
+        .cable-config a {
+            color: #358ED7;
+            text-decoration: none;
+            font-size: 12px;
+            position: relative;
+            margin: 10px 0;
+            display: inline-block;
+        }
+
+        .cable-config a:before {
+            content: "?";
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            border: 2px solid rgba(53, 142, 215, 0.5);
+            display: inline-block;
+            text-align: center;
+            line-height: 16px;
+            opacity: 0.5;
+            margin-right: 5px;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+        }
+
+        .product-price span {
+            font-size: 26px;
+            font-weight: 300;
+            color: #43474D;
+            margin-right: 20px;
+        }
+
+        .cart-btn {
+            display: inline-block;
+            background-color: #7DC855;
+            border-radius: 6px;
+            font-size: 16px;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 12px 30px;
+            transition: all .5s;
+        }
+
+        .cart-btn:hover {
+            background-color: #64af3d;
+        }
+
+        .quantity-config span {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .quantity-config input {
+            width: 50px;
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-primary py-3 d-none d-md-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-lg-left mb-2 mb-lg-0">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="text-white pr-3" href="">FAQs</a>
+                        <span class="text-white">|</span>
+                        <a class="text-white px-3" href="">Help</a>
+                        <span class="text-white">|</span>
+                        <a class="text-white pl-3" href="">Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative nav-bar p-0">
+        <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light shadow p-lg-0">
+                <a href="/" class="navbar-brand d-block d-sm-none">
+                    <h1 class="m-0 display-4 text-primary"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto py-0">
+                        <a href="/" class="nav-item nav-link">Home</a>
+                        <a href="/cakes" class="nav-item nav-link">Cakes</a>
+                    </div>
+                    <a href="/" class="navbar-brand mx-5 d-none d-sm-block">
+                        <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
+                    </a>
+                    <div class="navbar-nav mr-auto py-0">
+                        <a href="/contact" class="nav-item nav-link">Contact</a>
+                        {% if not session['name'] %}
+                        <a href="/login" class="nav-item nav-link">Log in</a>
+                        {% endif %}
+                        {% if session['name'] and session['is_admin'] == true %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin Portal
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                                <a class="dropdown-item" href="/addcake">Add Cake</a>
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="dropdown-item">
+                                        Admin Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        {% elif session['name'] %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" href="/profile">View Profile</a>
+                                <a class="dropdown-item" href="/orders">Orders</a>
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="dropdown-item">
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <a href="/cart" class="nav-item nav-link">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>{{ cart_item_count }}</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <!-- Header End -->
+
+
+    <main class="container">
+        {% for data in details %}
+        <div class="left-column">
+            <img id="dynamicImage" class="active" src="static/cake_images/{{ data.images }}">
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+            <!-- Product Description -->
+            <div class="product-description">
+                <h1>{{ data.name }}</h1>
+                <p>{{ data.description }}</p>
+            </div>
+
+            <!-- Product Configuration -->
+            <div class="product-configuration">
+
+                <!-- Cable Configuration -->
+                <div class="cable-config">
+                    <span>Cake Size</span>
+
+                    <div class="cable-choose">
+                        <button type="button" onclick="selectSize('Small')">Small</button>
+                        <button type="button" onclick="selectSize('Medium')">Medium</button>
+                        <button type="button" onclick="selectSize('Large')">Large</button>
+                    </div>
+                </div>
+                <div class="quantity-config">
+                    <span>Quantity</span>
+                    <input type="number" value="1" min="1" id="quantity">
+                </div>
+            </div>
+
+            <!-- Product Pricing -->
+            <div class="product-price">
+                <span id="price-display">${{ data.price }}</span>
+                <form action="{{ url_for('add_to_cart') }}" method="POST" onsubmit="updateForm()">
+                    <input type="hidden" name="cake_id" value="{{ data.id_cake }}">
+                    <input type="hidden" name="quantity" id="formQuantity" value="1" min="1" max="10">
+                    <input type="hidden" name="size" id="formSize" value="Medium">
+                    <input type="hidden" name="price" id="formprice" value="{{ data.price }}">
+                    <button type="submit" class="cart-btn">Add to cart</button>
+                </form>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <script>
+            const prices = {
+                'Small': 15.00, // Example price for Small
+                'Medium': 25.00, // Example price for Medium
+                'Large': 35.00 // Example price for Large
+            };
+            window.onload = function() {
+                selectSize('Small');
+            }
+        
+            function selectSize(size) {
+                // Update the hidden form field
+                document.getElementById('formSize').value = size;
+                
+                // Update the displayed price
+                const priceDisplay = document.getElementById('price-display');
+                priceDisplay.textContent = '$' + prices[size].toFixed(2);
+                
+                // Update the hidden price field
+                document.getElementById('formprice').value = prices[size].toFixed(2);
+            }
+
+            function updateForm() {
+                // Get the quantity from the input field
+                var quantity = document.getElementById('quantity').value;
+        
+                // Validate the quantity
+                if (quantity < 1 || quantity > 10) {
+                    alert('Quantity must be between 1 and 10');
+                    return false; // Prevent form submission
+                }
+        
+                // Update the hidden input field with the new quantity
+                document.getElementById('formQuantity').value = quantity;
+        
+                return true; // Allow form submission
+            }
+        </script>
+
+    </main>
+
+    <script>
+        // Assuming all_cake[3] is replaced by a string when the template is rendered
+        document.addEventListener("DOMContentLoaded", function () {
+            var imgElement = document.getElementById('dynamicImage');
+            var srcValue = imgElement.getAttribute('src');
+            var beforeComma = srcValue.split(',')[0];
+            console.log(beforeComma);
+            imgElement.setAttribute('src', beforeComma);
+        });
+    </script>
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid footer bg-light py-5" style="margin-top: 90px;">
+        <div class="container text-center py-5">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <a href="/" class="navbar-brand m-0">
+                        <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
+                    </a>
+                </div>
+                <div class="col-12 mb-4">
+                    <a class="btn btn-outline-secondary btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-secondary btn-social mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-secondary btn-social mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-outline-secondary btn-social" href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="col-12 mt-2 mb-4">
+                    <div class="row">
+                        <div class="col-sm-6 text-center text-sm-right border-right mb-3 mb-sm-0">
+                            <h5 class="font-weight-bold mb-2">Get In Touch</h5>
+                            <p class="mb-2">123 Street, New York, USA</p>
+                            <p class="mb-0">+012 345 67890</p>
+                        </div>
+                        <div class="col-sm-6 text-center text-sm-left">
+                            <h5 class="font-weight-bold mb-2">Opening Hours</h5>
+                            <p class="mb-2">Mon – Sat, 8AM – 5PM</p>
+                            <p class="mb-0">Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p class="m-0">&copy; <a href="#"></a>All Rights Reserved. Built by <a
+                            href="https://kendalltart.com">Kendall Tart</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-secondary px-2 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+{% endblock %}

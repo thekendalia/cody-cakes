@@ -1,0 +1,269 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <title>Cody's Cakes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Cody's Creations" name="keywords">
+    <meta content="Cody's Creations" name="description">
+
+    <!-- Favicon -->
+    <link href="static/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-primary py-3 d-none d-md-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-lg-left mb-2 mb-lg-0">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="text-white pr-3" href="">FAQs</a>
+                        <span class="text-white">|</span>
+                        <a class="text-white px-3" href="">Help</a>
+                        <span class="text-white">|</span>
+                        <a class="text-white pl-3" href="">Support</a>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center text-lg-right">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="text-white px-3" href="">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a class="text-white px-3" href="">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-white px-3" href="">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a class="text-white px-3" href="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a class="text-white pl-3" href="">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative nav-bar p-0">
+        <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light shadow p-lg-0">
+                <a href="/" class="navbar-brand d-block d-sm-none">
+                    <h1 class="m-0 display-4 text-primary"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto py-0">
+                        <a href="/" class="nav-item nav-link">Home</a>
+                        <a href="/cakes" class="nav-item nav-link">Cakes</a>
+                    </div>
+                    <a href="/" class="navbar-brand mx-5 d-none d-sm-block">
+                        <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
+                    </a>
+                    <div class="navbar-nav mr-auto py-0">
+                        <a href="/contact" class="nav-item nav-link">Contact</a>
+                        {% if not session['name'] %}
+                        <a href="/login" class="nav-item nav-link">Log in</a>
+                        {% endif %}
+                        {% if session['name'] and session['is_admin'] == true %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin Portal
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                                <a class="dropdown-item" href="/addcake">Add Cake</a>
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="dropdown-item">
+                                        Admin Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        {% elif session['name'] %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" href="/profile">View Profile</a>
+                                <a class="dropdown-item" href="/orders">Orders</a>
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="dropdown-item">
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <a href="/cart" class="nav-item nav-link">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>{{ cart_item_count }}</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h1 class="text-white display-3 mt-lg-5">Orders</h1>
+        </div>
+    </div>
+    <!-- Header End -->
+
+        <!-- Products Start -->
+        <div class="container-fluid py-5">
+            <div class="container py-5">
+                {% for order in orders %}
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h1 class="section-title position-relative text-center mb-5">Orders for {{ order['name'] }}</h1>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-12 mb-4 pb-2">
+                        <div
+                            class="product-item d-flex flex-column align-items-center text-center bg-light rounded py-5 px-3">
+                            <div class="bg-primary mt-n5 py-3" style="width: 80px;">
+                                <h4 class="font-weight-bold text-white mb-0"></h4>
+                            </div>
+                            <div class="position-relative bg-primary rounded-circle mt-n3 mb-4 p-3"
+                                style="width: 150px; height: 150px;">
+                                <img id="dynamicImage" class="rounded-circle w-100 h-100"
+                                    src="static/cake_images/{{ order['images'] }}" style="object-fit: cover;">
+                            </div>
+                            <h5 class="font-weight mb-4">{{ order['size'] }} {{ order['cake_name'] }}</h5>
+                            <h6 class="font-weight mb-4"><b>Quantity:</b> {{ order['quantity'] }}</h6>
+                            <h6 class="font-weight mb-4"><b>Order Comments:</b> {{ order['extra_note'] }}</h6>
+                            <h6 class="font-weight mb-4"><b>Pickup Date:</b> {{ order['needed_date'] }}</h6>
+                            <h6 class="font-weight mb-4"><b>Paid:</b> ${{ order['price'] * order['quantity'] }}</h6>
+                            {% if order['id_delivered'] == false %}
+                            <h6 class="font-weight mb-4"><b>Status:</b> Order received</h6>
+                            {% elif order['id_delivered'] == true %}
+                            <h6 class="font-weight mb-4"><b>Status:</b> Your Cake is ready!</h6>
+
+                            <h6 class="font-weight mb-4">Expect to hear from us soon! 🎂</h6>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!--
+            <div class="col-12 text-center">
+                <a href="" class="btn btn-primary py-3 px-5">Load More</a>
+            </div>
+            -->
+
+            </div>
+        </div>
+
+        <!-- Products End -->
+
+        <script>
+            // Assuming all_cake[3] is replaced by a string when the template is rendered
+            document.addEventListener("DOMContentLoaded", function () {
+                var imgElement = document.getElementById('dynamicImage');
+                var srcValue = imgElement.getAttribute('src');
+                var beforeComma = srcValue.split(',')[0];
+                console.log(beforeComma);
+                imgElement.setAttribute('src', beforeComma);
+            });
+        </script>
+
+
+        <!-- Footer Start -->
+        <div class="container-fluid footer bg-light py-5" style="margin-top: 90px;">
+            <div class="container text-center py-5">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <a href="/" class="navbar-brand m-0">
+                            <h1 class="m-0 display-4 text-primary" style="font-size: 2rem;"><span class="text-secondary">MAC's </span>Tipsey Creations</h1>
+                        </a>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <a class="btn btn-outline-secondary btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-secondary btn-social mr-2" href="#"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-secondary btn-social mr-2" href="#"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-outline-secondary btn-social" href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <div class="col-12 mt-2 mb-4">
+                        <div class="row">
+                            <div class="col-sm-6 text-center text-sm-right border-right mb-3 mb-sm-0">
+                                <h5 class="font-weight-bold mb-2">Get In Touch</h5>
+                                <p class="mb-2">123 Street, New York, USA</p>
+                                <p class="mb-0">+012 345 67890</p>
+                            </div>
+                            <div class="col-sm-6 text-center text-sm-left">
+                                <h5 class="font-weight-bold mb-2">Opening Hours</h5>
+                                <p class="mb-2">Mon – Sat, 8AM – 5PM</p>
+                                <p class="mb-0">Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <p class="m-0">&copy; <a href="#"></a>All Rights Reserved. Built by <a
+                                href="https://kendalltart.com">Kendall Tart</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-secondary px-2 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/isotope/isotope.pkgd.min.js"></script>
+        <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+        <!-- Contact Javascript File -->
+        <script src="mail/jqBootstrapValidation.min.js"></script>
+        <script src="mail/contact.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+</body>
+{% endblock %}
